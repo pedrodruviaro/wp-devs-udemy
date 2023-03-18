@@ -2,6 +2,8 @@
 
 ## Estrutura básica de um tema wordpress
 
+---
+
 ### Desenvolvimento
 
 -   Local
@@ -21,6 +23,8 @@
         define( 'WP_DEBUG', true );
     }
     ```
+
+---
 
 ### Hierarquia de um tema wordpress
 
@@ -46,6 +50,8 @@
     *loop*
     footer.php
     ```
+
+---
 
 ### Criando e ativando um tema
 
@@ -74,3 +80,31 @@ tag title -> incluída via functions.php
     -   filemtime para puxar o css => APENAS EM AMBIENTE DE DESENVOLVIMENTO
 
     -   incluindo google fonts
+
+        ```
+        wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap', array(), null);
+        ```
+
+    -   incluindo scripts => último argumento se refere à adição do script no header ou footer (true = footer, false = header)
+
+-   Criando o menu
+
+    -   Registrar os menus no functions.php -> **register_nav_menus**
+    -   Adicionar no painel os menus e links
+    -   Adicionar no código (local desejado)
+        -   **<?php wp_nav_menu( array( 'theme_location' => 'wp_devs_main_menu' ) ) ?>**
+        -   argumento 'depth' restringe a aparição de submenus (ex.: 1)
+        -   temos acesso à página atual com a classe **current_page_item**
+
+---
+
+### Funções avançadas para criação de temas
+
+-   O Loop Wordpress
+
+    -   Processar posts / páginas estáticas
+    -   Tags HTML + php
+
+-   Configurações > Leitura > Your homepage displays > Static Page
+    -   Homepage => Home
+    -   Posts Page => Blog

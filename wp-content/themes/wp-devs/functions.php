@@ -21,6 +21,18 @@ function wpdevs_load_scripts(){
 
     // google fonts
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap', array(), null);
+
+    // scripts
+    wp_enqueue_script( 'dropdown', get_template_directory_uri() . '/js/dropdown.js', array(), '1.0', true );
 }
 
 add_action('wp_enqueue_scripts', 'wpdevs_load_scripts' );
+
+
+// Menu
+register_nav_menus(
+    array(
+        'wp_devs_main_menu' => 'Main Menu',
+        'wp_devs_footer_menu' => 'Footer Menu',
+    )
+);

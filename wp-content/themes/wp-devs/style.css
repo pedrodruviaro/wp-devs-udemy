@@ -620,6 +620,7 @@ img {
     }
     .main-menu ul li a {
         color: #ffffff;
+        text-align: center;
     }
     .main-menu ul.sub-menu {
         position: relative;

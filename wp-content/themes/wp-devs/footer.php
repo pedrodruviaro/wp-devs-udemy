@@ -1,6 +1,14 @@
         <!-- Footer -->
         <footer class="site-footer">
-            Footer
+            <div class="container">
+                <div class="copyright">
+                    <p>Copyrigth <?php echo date("Y"); ?> - All Rights Reserved</p>
+                </div>
+
+                <nav class="footer-menu">
+                    <?php wp_nav_menu( array( 'theme_location' => 'wp_devs_footer_menu', 'depth' => 1 ) ) ?>
+                </nav>
+            </div>
         </footer>
     </div>
 
