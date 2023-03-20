@@ -106,5 +106,66 @@ tag title -> incluída via functions.php
     -   Tags HTML + php
 
 -   Configurações > Leitura > Your homepage displays > Static Page
+
     -   Homepage => Home
     -   Posts Page => Blog
+
+-   Template de páginas (ou modelos)
+
+    -   novos arquivos php com o nome da página
+        -   page-about.php
+        -   não reutilizável
+
+-   Criando templates reutilizáveis
+
+    -   arquivo general-template.php
+    -   selecionar modelo no painel (General Template)
+    -   o conteúdo do arquivo que importa
+    -   conteúdo varia mas a disposição na página é a mesma
+    -   hierarquia de template -> https://developer.wordpress.org/themes/basics/template-hierarchy/#single-page
+        -   o último arquivo buscado é o index.php
+    -   criando o page.php
+
+-   Adicionando theme support
+
+    -   função do wordpress para customizar vários aspectos do tema
+    -   alterações pontuais sem conhecer código
+    -   adiciona itens adicionais
+    -   https://developer.wordpress.org/reference/functions/add_theme_support/
+
+    -   adicionando imagem do header
+
+        ```
+        $args = array(
+            'height' => 225,
+            'width' => 1920
+        );
+
+        add_theme_support( 'custom-header', $args );
+        ```
+
+        -   No painel -> Aparência -> Header -> Adicionar a imagem
+        -   Adicionando no tema
+
+            -   general-template
+            -   page.php
+            -   index.php
+
+            ```
+            <img
+            src="<?php header_image(); ?>"
+            height="<?php echo get_custom_header()->height; ?>"
+            width="<?php echo get_custom_header()->width; ?>"
+            alt=""
+            >
+            ```
+
+    -   Adicionando miniaturas -> imagem que representa um post
+
+        -   add_theme_support('post-thumbnails');
+        -   Feature Image disponível no painel de edição de posts
+        -   no painel em Settings -> Media há um local reservado para o tamanho de imagens, neste caso, **Thumbnail size**
+        -   Modificando os tamanhos de imagem
+
+        -   adicionando no tema
+            -   <?php the_post_thumbnail( 'thumb' ); ?>
