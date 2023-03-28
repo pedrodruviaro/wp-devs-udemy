@@ -128,44 +128,161 @@ tag title -> incluída via functions.php
 
 -   Adicionando theme support
 
-    -   função do wordpress para customizar vários aspectos do tema
-    -   alterações pontuais sem conhecer código
-    -   adiciona itens adicionais
-    -   https://developer.wordpress.org/reference/functions/add_theme_support/
+        -   função do wordpress para customizar vários aspectos do tema
+        -   alterações pontuais sem conhecer código
+        -   adiciona itens adicionais
+        -   https://developer.wordpress.org/reference/functions/add_theme_support/
 
-    -   adicionando imagem do header
-
-        ```
-        $args = array(
-            'height' => 225,
-            'width' => 1920
-        );
-
-        add_theme_support( 'custom-header', $args );
-        ```
-
-        -   No painel -> Aparência -> Header -> Adicionar a imagem
-        -   Adicionando no tema
-
-            -   general-template
-            -   page.php
-            -   index.php
+        -   adicionando imagem do header
 
             ```
-            <img
-            src="<?php header_image(); ?>"
-            height="<?php echo get_custom_header()->height; ?>"
-            width="<?php echo get_custom_header()->width; ?>"
-            alt=""
-            >
+            $args = array(
+                'height' => 225,
+                'width' => 1920
+            );
+
+            add_theme_support( 'custom-header', $args );
             ```
 
-    -   Adicionando miniaturas -> imagem que representa um post
+            -   No painel -> Aparência -> Header -> Adicionar a imagem
+            -   Adicionando no tema
 
-        -   add_theme_support('post-thumbnails');
-        -   Feature Image disponível no painel de edição de posts
-        -   no painel em Settings -> Media há um local reservado para o tamanho de imagens, neste caso, **Thumbnail size**
-        -   Modificando os tamanhos de imagem
+                -   general-template
+                -   page.php
+                -   index.php
 
-        -   adicionando no tema
-            -   <?php the_post_thumbnail( 'thumb' ); ?>
+                ```
+                <img
+                src="<?php header_image(); ?>"
+                height="<?php echo get_custom_header()->height; ?>"
+                width="<?php echo get_custom_header()->width; ?>"
+                alt=""
+                >
+                ```
+
+        -   Adicionando miniaturas -> imagem que representa um post
+
+            -   add_theme_support('post-thumbnails');
+            -   Feature Image disponível no painel de edição de posts
+            -   no painel em Settings -> Media há um local reservado para o tamanho de imagens, neste caso, **Thumbnail size**
+            -   Modificando os tamanhos de imagem
+
+            -   adicionando no tema
+                -   <?php the_post_thumbnail( 'thumb' ); ?>
+                -   Pode ser adicionado tamanhos específicos na imagem
+                -   https://havecamerawilltravel.com/wordpress-thumbnail-crop/
+
+        -   Adicionando logo personalizado - no functions.php
+
+            ```
+            add_theme_support('custom-logo', array(
+            'width' => 200,
+            'height' => 110,
+            'flex-height' => true,
+            'flex-width' => true,
+            ));
+            ```
+
+            -   Appearance => Customize => Site Identity
+                -   header.php
+
+    -   Adicionando sidebar
+
+        -   registrando no functions.php
+        -   Adicionando sidebar.php
+        -   Adicionando no index.php
+        -   Appearance => Widgets
+
+    -   Criando a área de serviços
+
+        -   Registrando os 3 serviços no functions
+        -   Appearance -> Widgets -> Registrar estrutura de cada um
+        -   Chamando cada widget no page-home.php
+
+    -   Explorando WP_Query
+        -   loop customizado
+        -   feito na pagina page-home.php
+        -   ID das categorias: Posts => Categories => hover do mouse mostra o ID abaixo
+        -   Quando usamos a classe WP_Query para modificarmos a consulta padrão do WordPress, temos que antes criar um objeto dessa classe para usarmos passando os argumentos para o objeto
+        -   A classe WP_Query não modifica diretamente o loop padrão. Ela faz uma cópia do loop padrão para ser usada da forma que desejar. Ao final do loop, temos que usar wp_reset_postdata();
+
+### Criando as Páginas Internas do tema
+
+-   Permalinks
+
+    -   passar no href da tag 'a' a função the_permalink();
+
+-   O arquivo single.php
+
+    -   arquivo específico para exibir um post
+    -   article id="post-<?php the_ID(); ?>" <?php post_class(); ?>
+
+-   Adicionando comentários
+
+    -   Podemos permitir ou não comentários em posts específicos pelo painel do post
+    -   adicionamos o arquivo comments.php vindo de outro tema
+    -   loop na página de post para exibir o esquema de comentários
+
+-   Páginas de pesquisa
+
+    -   nem todo site precisa de uma caixa de pesquisa
+    -   <?php get_search_form(); ?> no header.php
+    -   criando um novo arquivo de template para exibir os resultados -> search.php
+        -   mesma estrutura do page.php
+    -   formulário de pesquisa -> searchform.php
+    -   filtrando post e páginas na busca
+        -   regra if('post' == get_post_type()): no loop sem search.php
+    -   excluindo todas as páginas do resultado de pesquisa
+        -   input hidden no searchform.php
+            -   input type="hidden" value="post" name="post_type" id="post_type"
+            -   ou
+            -   input type="hidden" value="page" name="post_type" id="post_type"
+
+-   Paginação (página blog)
+
+    -   Podemos mudar a quantidade de resultados em Settings -> Reading
+    -   chamar os pontos antigos
+
+        -   <?php previous_posts_link('<< Newer posts'); ?>
+
+    -   no single.php, podemos adicionar links chamando os posts anterior/posterior com uma função semelhante (singular)
+        -   <?php next_post_link( $args ); ?>
+
+-   Paginação (busca)
+
+    -   numérica
+    -   the_posts_pagination( $args );
+
+-   Criando páginas de arquivo, categoria, autor e tags
+
+    -   archive.php -> exibição de categorias, author, datas...
+    -   será substituido caso houver os arquivos específicos, ex. category.php, author.php, date.php
+
+-   O arquivo 404.php
+
+-   Entendendo template parts
+
+    -   pedaços do tema desacoplados
+        -   get_template_part( 'parts/content' ); -> content
+        -   get_template_part( 'parts/content', 'single' ); -> content-single
+
+-   Tags condicionais
+
+    -   resolve problemas de exibição
+    -   https://developer.wordpress.org/themes/basics/conditional-tags/
+    -   blocos if/else
+    -   ex.: removendo a tag image caso não haja thumbnail no blogpost
+
+-   Configurações adicionais
+    -   abaixo da tag body <?php wp_body_open(); ?>
+        -   tag obrigatória
+        -   ex.: caso de uso para GTM
+    -   no functions.php -> adicionando condicional para wp_body_open caso não exista
+    -   no functions.php -> automatic-feed-links como theme_support
+    -   no functions.php -> suporte para HTML5 => html5
+    -   adicionar as classes do WP no arquivo final css (https://wordpress.org/documentation/article/css/)
+
+### Funções Avançadas, Bibliotecas e APIs nativas
+
+-   **Theme Customizer**
+    -   Appearance -> Customize
